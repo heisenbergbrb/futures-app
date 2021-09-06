@@ -1,0 +1,120 @@
+@import './tailwind.css';
+@import './variables.scss';
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  color: $text-2;
+}
+
+body {
+  background: $main-dark-1;
+}
+
+button {
+  -webkit-app-region: no-drag;
+  outline: none;
+  appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.heading-container {
+  border-bottom: 1px solid #EFEFEF;
+}
+
+.dark-input {
+  width: 100%;
+  background-color: $btn-bg-hover;
+  padding: 10px;
+  border-radius: .5rem;
+  appearance: none;
+  outline: none;
+
+  &::placeholder { 
+    color: #888888;
+  }
+}
+
+.btn-gray {
+  background-color: $btn-bg-hover;
+  padding: 10px 0px;
+  color: #fff;
+  width: 100%;
+  border-radius: .5rem;
+
+  &:hover {
+    background-color: #404247;
+  }
+}
+
+.btn-long {
+  background-color: rgba(253, 230, 138, .9);
+  padding: 10px 0px;
+  color: #fff;
+  width: 100%;
+  border-radius: .5rem;
+
+  &:hover {
+    background-color: rgba(253, 230, 138, 1);
+  }
+}
+
+.btn-short {
+  background-color: rgba(220, 38, 38, .8);
+  padding: 10px 0px;
+  color: #fff;
+  width: 100%;
+  border-radius: .5rem;
+
+  &:hover {
+    background-color: rgba(220, 38, 38, 1);
+  }
+}
+
+.btn-blue {
+  background-color: $btn-bg;
+  padding: 10px 0px;
+  color: $blue;
+  width: 100%;
+  border-radius: .5rem;
+
+  &:hover {
+    background-color: $btn-bg-hover;
+  }
+}
+
+.snackbar {
+  z-index: 1500;
+  width: 400px !important;
+  top: 32px !important;
+}
+
+.toasted-container {
+  margin-top: 32px !important;
+  z-index: 1500 !important;
+}
+
+.toasted {
+  font-family: 'Inter', sans-serif;
+  padding: 14px 16px !important;
+  line-height: 20px !important;
+}
+
+.error-btn {
+  color: #F44336 !important;
+}
+.scs-btn {
+  color: #4CAF50 !important;
+}
+// .testing {
+//   padding: 14px 160px !important;
+// }

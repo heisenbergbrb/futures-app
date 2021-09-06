@@ -1,0 +1,25 @@
+{
+  "title": "AE Pumpbot",
+  "settings": {
+    "desc": {
+      "useStopLoss": "Automatically set stop loss after the bot successfully filled market buy.",
+      "coinPair": "Asset that will be use to buy the coin.",
+      "tpPerc": "Percentage where the bot will take profit.",
+      "stopValPerc": "Percentage where the Stop limit value will be set. Also known as Trigger price.",
+      "stopLimitPerc": "Percentage where the the stop loss will be executed. Value should be lower than Stop value (%).",
+      "apiKey": "Enter your Binance API Key.",
+      "apiSecret": "Enter your Binance Secret Key."
+    }
+  },
+  "error": {
+    "CANT_CONNECT_BINANCE" : "Cannot connect to Binance api, please try again later.",
+    "CANT_GET_BALANCE" : "Cannot get BTC and USDT Balance, please try again later.",
+    "EMPTY_VALUE" : "Please enter a value.",
+    "NUMBER_ONLY" : "Value should be number and decimal only.",
+    "LIMIT_ZERO" : "Minimum value is 0.",
+    "EMPTY_API" : "Please put your api key & secret on settings.ini file.",
+    "INVALID_API" : "Invalid settings.ini.",
+    "MARKET_LOT_SIZE" : "Total BTC is too high or too low.",
+    "INVALID_COIN_NAME": "Invalid coin name."
+  }
+}

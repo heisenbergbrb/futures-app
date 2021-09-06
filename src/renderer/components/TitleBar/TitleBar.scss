@@ -1,0 +1,14 @@
+@import '../../assets/css/variables.scss';
+
+.title-container {
+  background: $main-dark-2;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+
+  span, button {
+    color: $text-2;
+  }
+}

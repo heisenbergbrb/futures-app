@@ -1,0 +1,74 @@
+@import '../../assets/css/variables.scss';
+
+.settings {
+  padding: 2px;
+  border: 1px solid $blue;
+  border-radius: 50%;
+
+  &:hover {
+    border: 1px solid $blue-sec;
+
+    svg {
+      color: $blue-sec
+    }
+  }
+
+  svg {
+    color: $blue
+  }
+}
+
+.che {
+  border-color: $main-dark-3;
+}
+
+.wrapper {
+  background-color: $main-dark-3;
+  border-radius: .5rem;
+  padding: 16px 14px;
+}
+
+.balances { 
+  h1 {
+    font-weight: 500;
+  }
+
+  img {
+    width: 25px;
+  }
+}
+
+.max-btn {
+  color: $blue;
+  text-decoration: underline;
+
+  &:hover {
+    color: $blue-sec;
+  }
+}
+
+.has-svg {
+  svg {
+    color: $comp;
+  }
+}
+
+.hash {
+  position: absolute;
+  top: 17px;
+  left: 10px;
+  color: $comp;
+  font-weight: bold;
+}
+
+.go-btn {
+  width: 48% !important;
+  display: flex;
+  justify-content: center;
+
+  svg {
+    margin-left: -10px;
+    margin-right: 6px;
+    margin-top: 4px;
+  }
+}
