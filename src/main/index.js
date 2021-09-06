@@ -26,7 +26,7 @@ function createWindow () {
     titleBarStyle: 'hiddenInset',
     resizable: false,
     webPreferences: {
-      devTools: false,
+      devTools: true,
       experimentalFeatures: true,
       enableRemoteModule: true
     }

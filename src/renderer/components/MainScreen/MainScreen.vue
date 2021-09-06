@@ -125,32 +125,43 @@ export default {
       await this.getFutureBalace()
     },
     async openOrder () {
-      const quantity = await this.getQuantity()
+      const amount = await this.getAmount()
       const res = (this.binanceData.type === 'short') 
-        ? await this.client.futuresMarketSell( `${this.coin}USDT`, quantity )
-        : await this.client.futuresMarketBuy( `${this.coin}USDT`, quantity )
+        ? await this.client.futuresMarketSell( `${this.coin}USDT`, amount )
+        : await this.client.futuresMarketBuy( `${this.coin}USDT`, amount )
       
       this.coin = ''
       this.binanceData = cloneDeep(this.defaultBinanceData)
+      if (res.code !== undefined) {
+        this.showToastError(res.msg)
+
+        return
+      }
+
       this.$toasted.show('Successfully placed order.', {
         position: 'top-center',
         duration: 5000,
         singleton: true,
       })
     },
-    async getQuantity () {
+    async getAmount () {
       const { markPrice } = await this.client.futuresMarkPrice( `${this.coin}USDT` )
       const cost = (this.binanceData.balance / 100) * this.settings.size
       const leverageCost = (cost * this.settings.leverage)
-      let quantity = leverageCost / markPrice
-      if (quantity % 1 === 0) {
-        return quantity
-      }
-      if (this.countDecimals(quantity) > 3) {
-        quantity = +this.toFixed(quantity, 3)
-      }
-
-      return quantity
+      const quantity = leverageCost / markPrice
+      const { symbols } = await this.client.futuresExchangeInfo()
+      let coinStepSize = null
+      symbols.forEach(symbol => {
+        if (symbol.baseAsset === this.coin) {
+          const lotSize = symbol.filters.find(filter => filter.filterType === 'LOT_SIZE')
+          if (lotSize) {
+            coinStepSize = lotSize.stepSize
+          }
+        }
+      })
+      const finalAmount = await this.client.roundStep(quantity, coinStepSize)
+      
+      return finalAmount
     },
     async setMarginType () {
       await this.client.futuresMarginType( `${this.coin}USDT`, 'CROSSED' )
