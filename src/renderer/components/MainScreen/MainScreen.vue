@@ -4,6 +4,9 @@
       v-if="showSettings"
       @toggleShowSettings="toggleShowSettings"
     />
+    <Modal v-if="orderLoading" :zIndex="1000">
+      <Loading style="height: 75%" />
+    </Modal>
     <div class="py-5 px-4 w-full">
       <!-- Heading -->
       <section>
@@ -79,9 +82,11 @@
 
 <script>
 import moment from 'moment'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 import Settings from '../Settings/Settings.vue' 
+import Modal from '../Modal/Modal.vue'
+import Loading from '../Loading/Loading.vue'
 
 const defaultBinanceData = {
   balance: null,
@@ -90,13 +95,16 @@ const defaultBinanceData = {
 
 export default {
   components: {
-    Settings
+    Settings,
+    Modal,
+    Loading
   },
   data: () => ({
     currentTime: '',
     showSettings: false,
     coin: '',
     binanceData: null,
+    orderLoading: false
   }),
   computed: {
     ...mapGetters({
@@ -113,6 +121,9 @@ export default {
     setInterval(() => this.getTime(), 1000)
   },
   methods: {
+    ...mapActions({
+      toogleLoadingOrder: 'toogleLoadingOrder',
+    }),
     async handleSubmit (type) {
       this.coin = this.coin.trim().toUpperCase()
       this.binanceData.type = type
@@ -122,6 +133,7 @@ export default {
       await this.handleOrder()
     },
     async handleOrder () {
+      this.orderLoading = true
       await this.getFutureBalace()
     },
     async openOrder () {
@@ -133,16 +145,18 @@ export default {
       this.coin = ''
       this.binanceData = cloneDeep(this.defaultBinanceData)
       if (res.code !== undefined) {
+        this.orderLoading = false
         this.showToastError(res.msg)
 
         return
       }
-
+      this.orderLoading = false
       this.$toasted.show('Successfully placed order.', {
         position: 'top-center',
         duration: 5000,
         singleton: true,
       })
+      this.toogleLoadingOrder()
     },
     async getAmount () {
       const { markPrice } = await this.client.futuresMarkPrice( `${this.coin}USDT` )
@@ -176,6 +190,7 @@ export default {
         this.settings.leverage
       )
       if (res.code !== undefined) {
+        this.orderLoading = false
         this.showToastError(res.msg)
 
         return
@@ -192,6 +207,7 @@ export default {
         return
       }
       this.showToastError('USDT balance not found')
+      this.orderLoading = false
     },
     getTime () {
       this.currentTime = moment(new Date().valueOf()).format("MMM DD YYYY h:mm:ss")

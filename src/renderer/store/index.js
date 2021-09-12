@@ -79,6 +79,12 @@ let store = new Vuex.Store({
     toogleLoading ({ commit }) { 
       commit('TOGGLE_LOADING')
     },
+    toogleLoadingOrder ({ commit }) { 
+      commit('TOGGLE_LOADING')
+      setTimeout(() => {
+        commit('TOGGLE_LOADING')
+      }, 1000);
+    },
     async connectToBinance ({ commit, getters }) {
       const { key, secret } = getters.getApi
       const client = new Binance({
