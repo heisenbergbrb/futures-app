@@ -22,7 +22,7 @@ let store = new Vuex.Store({
       size: 10
     },
   },
-  getters: {
+  getters: { 
     isApiSet (state) {
       const { key, secret } = state.api
    
@@ -31,7 +31,7 @@ let store = new Vuex.Store({
     binanceClient (state) {
       return state.binanceClient 
     },
-    nodeBinance (state) {
+    nodeBinance (state) { 
       return state.nodeBinance 
     },
     loading (state) {
@@ -66,7 +66,7 @@ let store = new Vuex.Store({
       state.settings = payload
     }
   },
-  actions: { 
+  actions: {
     setApi ({ commit }, payload) {
       commit('SET_API', payload)
     },

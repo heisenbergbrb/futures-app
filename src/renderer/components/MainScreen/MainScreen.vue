@@ -54,6 +54,8 @@
                 type="text" 
                 class="dark-input mt-2 uppercase"
                 style="padding-left: 25px !important;"
+                @focus="handleInputEvent('focus')"
+                @blur="handleInputEvent('blur')"
               >
               <div class="hash">
                 <p class="text-lg">#</p>
@@ -67,13 +69,13 @@
           class="btn-long go-btn"
           @click="handleSubmit('long')"
         >
-          <span>LONG</span>
+          <span>LONG (Enter)</span>
         </button>
         <button 
           class="btn-short go-btn"
           @click="handleSubmit('short')"
         >
-          <span>SHORT</span>
+          <span>SHORT (RShift)</span>
         </button>
       </section>
     </div>
@@ -120,10 +122,30 @@ export default {
     this.getTime()
     setInterval(() => this.getTime(), 1000)
   },
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.handleInputSubmit);
+  },
   methods: {
     ...mapActions({
       toogleLoadingOrder: 'toogleLoadingOrder',
     }),
+    handleInputEvent (type) {
+      if (type === 'focus') {
+        window.addEventListener('keydown', this.handleInputSubmit);
+
+        return
+      }
+      console.log('removee')
+      window.removeEventListener('keydown', this.handleInputSubmit);
+    },
+    handleInputSubmit (e) {
+      // 13 38
+      if (e.keyCode === 13) {
+        this.handleSubmit('long')
+      } else if (e.keyCode === 38) {
+        this.handleSubmit('short')
+      }
+    },
     async handleSubmit (type) {
       this.coin = this.coin.trim().toUpperCase()
       this.binanceData.type = type
@@ -156,6 +178,7 @@ export default {
         duration: 5000,
         singleton: true,
       })
+      window.removeEventListener('keydown', this.handleInputSubmit);
       this.toogleLoadingOrder()
     },
     async getAmount () {
