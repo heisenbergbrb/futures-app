@@ -18,8 +18,8 @@ let store = new Vuex.Store({
       secret: ''
     }, 
     settings: {
-      leverage: 20,
-      size: 10
+      leverage: null,
+      size: null
     },
   },
   getters: { 
@@ -33,7 +33,7 @@ let store = new Vuex.Store({
     },
     nodeBinance (state) { 
       return state.nodeBinance 
-    },
+    }, 
     loading (state) {
       return state.loading
     },
@@ -64,6 +64,7 @@ let store = new Vuex.Store({
     },
     SET_SETTINGS (state, payload) {
       state.settings = payload
+      storage.set('settings', payload)
     }
   },
   actions: {

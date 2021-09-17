@@ -44,6 +44,7 @@ export default {
   computed: {
     ...mapGetters({
       loading: 'loading',
+      settings: 'getSettings',
       // isApiSet: 'isApiSet'
     }),
   },
@@ -57,6 +58,7 @@ export default {
   methods: {
     ...mapActions({
       setApi: 'setApi',
+      setSettings: 'setSettings',
       clearApiStorage: 'clearApiStorage',
       toogleLoading: 'toogleLoading',
       connectToBinanceStore: 'connectToBinance'
@@ -67,12 +69,38 @@ export default {
     },
     async init () {
       const { apiKey, apiSecret } = await this.getAPIFromStorage()
+      await this.getSettingsFromStorage()
       if (!apiKey && !apiSecret) {
         this.showSetAPI = true
 
         return
       }
       this.connectToBinance()
+    },
+    getSettingsFromStorage () {
+      const vm = this
+      return new Promise((resolve, _) => {
+        storage.get('settings', function(error, data) {
+          if (error) {
+            storage.set('settings', {
+              leverage: 20,
+              size: 10
+            })
+          }
+          if (Object.keys(data).length > 0) {
+            vm.setSettings(data)
+            resolve(data)
+
+            return
+          }
+          const emptyData = {
+            leverage: 20,
+            size: 10
+          }
+          vm.setSettings(emptyData)
+          resolve(emptyData)
+        });
+      })
     },
     getAPIFromStorage () {
       const vm = this
